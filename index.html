@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Songwriting Template</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            text-align: center;
+            color: #764ba2;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .title-section {
+            margin-bottom: 40px;
+        }
+
+        .title-input {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2em;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .title-input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .song-section {
+            margin-bottom: 30px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border: 2px solid #e0e0e0;
+            animation: fadeIn 0.5s ease-out;
+            position: relative;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .section-header {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .structure-select {
+            padding: 10px 15px;
+            font-size: 1em;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .structure-select:hover {
+            border-color: #667eea;
+        }
+
+        .structure-select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .structure-number {
+            width: 70px;
+            padding: 10px;
+            font-size: 1em;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .structure-number:hover {
+            border-color: #667eea;
+        }
+
+        .structure-number:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .structure-number::-webkit-inner-spin-button,
+        .structure-number::-webkit-outer-spin-button {
+            opacity: 1;
+            height: 30px;
+        }
+
+        .rhyme-setup-btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .rhyme-setup-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+        }
+
+        .rhyme-setup-btn.active {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+            transform: translateY(1px);
+        }
+
+        .rhyme-pattern-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .rhyme-input {
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+            border: 3px solid #ddd;
+            border-radius: 10px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .rhyme-input:focus {
+            outline: none;
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .rhyme-input.completed {
+            background: #f0f0f0;
+        }
+
+        .lyrics-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .lyrics-line {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            animation: slideInLine 0.3s ease-out;
+        }
+
+        @keyframes slideInLine {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .rhyme-marker {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            font-weight: bold;
+            border-radius: 10px;
+            border: 3px solid;
+            background: white;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        input.rhyme-marker {
+            padding: 0;
+        }
+
+        .lyrics-input {
+            flex: 1;
+            padding: 12px;
+            font-size: 1em;
+            border: 3px solid;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .lyrics-input::placeholder {
+            color: #999;
+            opacity: 0.55;
+            letter-spacing: 3px;
+        }
+
+        .lyrics-input:focus {
+            outline: none;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(0,0,0,0.05);
+        }
+
+        .add-section-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            margin-top: 20px;
+        }
+
+        .add-section-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+        }
+
+        .add-section-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Rhyme color schemes */
+        .rhyme-A { border-color: #4ade80 !important; }
+        .rhyme-B { border-color: #60a5fa !important; }
+        .rhyme-C { border-color: #f87171 !important; }
+        .rhyme-D { border-color: #fb923c !important; }
+        .rhyme-E { border-color: #c084fc !important; }
+        .rhyme-F { border-color: #22d3ee !important; }
+        .rhyme-X { border-color: #000000 !important; }
+
+        .section-number {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
+        .export-buttons {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .export-btn, .copy-btn {
+            padding: 15px 30px;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .export-btn {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .copy-btn {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        }
+
+        .export-btn:hover, .copy-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+
+        /* Modal for export preview */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .modal-close:hover,
+        .modal-close:focus {
+            color: black;
+        }
+
+        .export-preview {
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .container {
+                display: none;
+            }
+            .export-buttons {
+                display: none;
+            }
+            .modal {
+                display: none !important;
+            }
+            .print-content {
+                display: block !important;
+                font-family: 'Courier New', monospace;
+                white-space: pre-wrap;
+                padding: 20px;
+            }
+        }
+
+        .print-content {
+            display: none;
+        }
+
+        .instructions {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border: 2px solid #f59e0b;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+            color: #92400e;
+        }
+
+        .add-line-hint {
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            right: 50%;
+            transform: translateX(50%);
+            background: #10b981;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 3000;
+            animation: slideUp 0.3s ease-out;
+            display: none;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateX(50%) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(50%) translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎵 Interactive Songwriting Template</h1>
+        
+        <div class="instructions">
+            <strong>Quick Start:</strong> Enter your song title, then click "Add Section" to begin. Use the "Rhyme Scheme Setup" button to create custom rhyme patterns with color-coded lines (A=Green, B=Blue, C=Red, D=Orange, E=Purple, F=Cyan, X=Black).
+            <br><br>
+            <strong>Pro Tips:</strong> When using Rhyme Scheme Setup, type letters to pre-define your pattern (e.g., A, B, A, B). Press Enter in any lyrics box to add a new line. Press Tab to jump to the next lyrics box (skipping rhyme markers).
+            <br><br>
+            <strong>Export:</strong> Use "Export to PDF" for a formatted print version or "Copy to Clipboard" to paste your song elsewhere.
+        </div>
+
+        <div class="title-section">
+            <input type="text" class="title-input" placeholder="Song Name / Working Title" id="songTitle">
+        </div>
+
+        <div id="sections-container"></div>
+
+        <button class="add-section-btn" onclick="addSection()">+ Add Section</button>
+    </div>
+
+    <div class="export-buttons">
+        <button class="copy-btn" onclick="copyToClipboard()">📋 Copy to Clipboard</button>
+        <button class="export-btn" onclick="exportToPDF()">📄 Export to PDF</button>
+    </div>
+
+    <div class="print-content" id="printContent"></div>
+
+    <div class="toast" id="toast">✓ Copied to clipboard!</div>
+
+    <script>
+        let sectionCount = 0;
+        let maxSections = 15;
+        let sectionModes = {}; // Track whether each section is in rhyme scheme mode
+
+        const rhymeColors = {
+            'A': '#4ade80',
+            'B': '#60a5fa',
+            'C': '#f87171',
+            'D': '#fb923c',
+            'E': '#c084fc',
+            'F': '#22d3ee',
+            'X': '#000000'
+        };
+
+        function addSection() {
+            if (sectionCount >= maxSections) {
+                alert('Maximum of 15 sections reached!');
+                return;
+            }
+
+            sectionCount++;
+            sectionModes[sectionCount] = false; // Initialize as not in rhyme scheme mode
+            
+            const container = document.getElementById('sections-container');
+            
+            const section = document.createElement('div');
+            section.className = 'song-section';
+            section.id = `section-${sectionCount}`;
+            
+            section.innerHTML = `
+                <span class="section-number">${sectionCount}</span>
+                <div class="section-header">
+                    <select class="structure-select" id="structure-${sectionCount}">
+                        <option value="">Select Structure...</option>
+                        <option value="Verse">Verse</option>
+                        <option value="Chorus">Chorus</option>
+                        <option value="Bridge">Bridge</option>
+                        <option value="Hook">Hook</option>
+                        <option value="Intro">Intro</option>
+                        <option value="Outro">Outro</option>
+                        <option value="Pre-Chorus">Pre-Chorus</option>
+                        <option value="Post-Chorus">Post-Chorus</option>
+                    </select>
+                    <input type="number" class="structure-number" id="structure-num-${sectionCount}" 
+                           min="1" max="25" placeholder="#" title="Structure number (1-25)">
+                    <button class="rhyme-setup-btn" id="rhyme-btn-${sectionCount}" onclick="toggleRhymeSetup(${sectionCount})">
+                        Rhyme Scheme Setup?
+                    </button>
+                </div>
+                <div id="rhyme-pattern-${sectionCount}" class="rhyme-pattern-container" style="display: none;"></div>
+                <div id="lyrics-${sectionCount}" class="lyrics-container">
+                    ${createDefaultLines(sectionCount)}
+                </div>
+            `;
+            
+            container.appendChild(section);
+            
+            // Setup event listeners for the new section
+            setupSectionEventListeners(sectionCount);
+            
+            // Scroll to new section
+            section.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function createDefaultLines(sectionId) {
+            let html = '';
+            for (let i = 1; i <= 4; i++) {
+                html += `
+                    <div class="lyrics-line" data-line="${i}">
+                        <input type="text" class="rhyme-marker" id="marker-${sectionId}-${i}" 
+                               maxlength="1" data-section="${sectionId}" data-line="${i}">
+                        <input type="text" class="lyrics-input" id="lyrics-${sectionId}-${i}" 
+                               placeholder="L Y R I C S" data-section="${sectionId}" data-line="${i}">
+                    </div>
+                `;
+            }
+            return html;
+        }
+
+        function toggleRhymeSetup(sectionId) {
+            const btn = document.getElementById(`rhyme-btn-${sectionId}`);
+            const patternContainer = document.getElementById(`rhyme-pattern-${sectionId}`);
+            
+            if (patternContainer.style.display === 'none') {
+                // Activate rhyme scheme setup
+                btn.classList.add('active');
+                patternContainer.style.display = 'flex';
+                sectionModes[sectionId] = true;
+                
+                // Clear current lines and add first rhyme pattern input
+                patternContainer.innerHTML = '<input type="text" class="rhyme-input" maxlength="1" onkeyup="addRhymePattern(' + sectionId + ', this)">';
+                
+                // Add hint if not present
+                if (!document.querySelector(`#hint-${sectionId}`)) {
+                    const hint = document.createElement('div');
+                    hint.className = 'add-line-hint';
+                    hint.id = `hint-${sectionId}`;
+                    hint.textContent = 'Type letters above to define your rhyme pattern. Press Enter in lyrics to add more lines.';
+                    document.getElementById(`lyrics-${sectionId}`).parentNode.appendChild(hint);
+                }
+                
+                // Focus on first rhyme pattern input
+                patternContainer.querySelector('.rhyme-input').focus();
+            } else {
+                // Deactivate rhyme scheme setup
+                btn.classList.remove('active');
+                patternContainer.style.display = 'none';
+                sectionModes[sectionId] = false;
+                
+                // Reset to default lines
+                resetToDefaultLines(sectionId);
+                
+                // Remove hint
+                const hint = document.querySelector(`#hint-${sectionId}`);
+                if (hint) hint.remove();
+            }
+        }
+
+        function addRhymePattern(sectionId, input) {
+            const value = input.value.toUpperCase();
+            if (value && /[A-FX]/.test(value)) {
+                input.value = value;
+                input.classList.add('completed');
+                
+                // Add new line for this rhyme
+                addRhymeLine(sectionId, value);
+                
+                // Add new input for next pattern
+                const newInput = document.createElement('input');
+                newInput.type = 'text';
+                newInput.className = 'rhyme-input';
+                newInput.maxLength = 1;
+                newInput.onkeyup = function() { addRhymePattern(sectionId, this); };
+                
+                // Allow editing of completed inputs
+                input.onkeyup = function() { updatePatternLetter(sectionId, this); };
+                
+                const patternContainer = document.getElementById(`rhyme-pattern-${sectionId}`);
+                patternContainer.appendChild(newInput);
+                newInput.focus();
+            }
+        }
+
+        function updatePatternLetter(sectionId, input) {
+            const patternContainer = document.getElementById(`rhyme-pattern-${sectionId}`);
+            const inputs = Array.from(patternContainer.querySelectorAll('.rhyme-input.completed'));
+            const index = inputs.indexOf(input);
+            
+            if (index >= 0) {
+                const value = input.value.toUpperCase();
+                if (value && /[A-FX]/.test(value)) {
+                    input.value = value;
+                    // Update corresponding line
+                    updateRhymeColor(sectionId, index + 1, value);
+                } else if (value === '') {
+                    // If deleted, remove the corresponding line
+                    const lyricsContainer = document.getElementById(`lyrics-${sectionId}`);
+                    const lines = lyricsContainer.querySelectorAll('.lyrics-line');
+                    if (lines[index]) {
+                        lines[index].remove();
+                    }
+                    input.remove();
+                    
+                    // Re-number remaining lines
+                    renumberLines(sectionId);
+                }
+            }
+        }
+
+        function addRhymeLine(sectionId, rhyme) {
+            const lyricsContainer = document.getElementById(`lyrics-${sectionId}`);
+            const patternContainer = document.getElementById(`rhyme-pattern-${sectionId}`);
+            const completedPatterns = patternContainer.querySelectorAll('.rhyme-input.completed');
+            const lineCount = completedPatterns.length;
+            
+            // Check if we need to clear default lines (first time adding pattern lines)
+            if (lineCount === 1 && lyricsContainer.children.length === 4) {
+                const hasContent = Array.from(lyricsContainer.querySelectorAll('.lyrics-input'))
+                    .some(input => input.value.trim() !== '');
+                
+                if (!hasContent) {
+                    lyricsContainer.innerHTML = '';
+                }
+            }
+            
+            const line = document.createElement('div');
+            line.className = 'lyrics-line';
+            line.setAttribute('data-line', lineCount);
+            
+            const colorClass = `rhyme-${rhyme}`;
+            
+            line.innerHTML = `
+                <div class="rhyme-marker ${colorClass}">${rhyme}</div>
+                <input type="text" class="lyrics-input ${colorClass}" 
+                       id="lyrics-${sectionId}-${lineCount}" 
+                       placeholder="L Y R I C S"
+                       data-section="${sectionId}" data-line="${lineCount}">
+            `;
+            
+            lyricsContainer.appendChild(line);
+            
+            // Setup event listeners for the new line
+            setupLineEventListeners(sectionId, lineCount);
+        }
+
+        function addManualRhymeLine(sectionId, rhyme = '', insertAfterLine = null) {
+            const lyricsContainer = document.getElementById(`lyrics-${sectionId}`);
+            
+            const line = document.createElement('div');
+            line.className = 'lyrics-line';
+            
+            const colorClass = rhyme && /[A-FX]/.test(rhyme) ? `rhyme-${rhyme}` : '';
+            
+            line.innerHTML = `
+                <input type="text" class="rhyme-marker ${colorClass}" 
+                       maxlength="1" value="${rhyme}"
+                       data-section="${sectionId}">
+                <input type="text" class="lyrics-input ${colorClass}" 
+                       placeholder="L Y R I C S"
+                       data-section="${sectionId}">
+            `;
+            
+            // Insert at appropriate position
+            if (insertAfterLine) {
+                insertAfterLine.parentNode.insertBefore(line, insertAfterLine.nextSibling);
+            } else {
+                lyricsContainer.appendChild(line);
+            }
+            
+            // Renumber all lines
+            renumberLines(sectionId);
+            
+            // Setup event listeners
+            setupSectionEventListeners(sectionId);
+            
+            // Focus on the lyrics input
+            const newLyricsInput = line.querySelector('.lyrics-input');
+            if (newLyricsInput) {
+                newLyricsInput.focus();
+            }
+        }
+
+        function resetToDefaultLines(sectionId) {
+            const lyricsContainer = document.getElementById(`lyrics-${sectionId}`);
+            lyricsContainer.innerHTML = createDefaultLines(sectionId);
+            setupSectionEventListeners(sectionId);
+        }
+
+        function updateRhymeColor(sectionId, lineNum, value) {
+            const rhyme = value.toUpperCase();
+            const lyricsContainer = document.getElementById(`lyrics-${sectionId}`);
+            const lines = lyricsContainer.querySelectorAll('.lyrics-line');
+            const line = lines[lineNum - 1];
+            
+            if (!line) return;
+            
+            const marker = line.querySelector('.rhyme-marker');
+            const lyrics = line.querySelector('.lyrics-input');
+            
+            if (marker) {
+                // If it's a div (from pattern), update text; if input, update value
+                if (marker.tagName === 'DIV') {
+                    marker.textContent = rhyme;
+                } else {
+                    marker.value = rhyme;
+                }
+                
+                // Remove all rhyme classes
+                marker.className = 'rhyme-marker';
+                
+                // Add appropriate rhyme class
+                if (rhyme && /[A-FX]/.test(rhyme)) {
+                    marker.classList.add(`rhyme-${rhyme}`);
+                }
+            }
+            
+            if (lyrics) {
+                // Remove all rhyme classes
+                lyrics.className = 'lyrics-input';
+                
+                // Add appropriate rhyme class
+                if (rhyme && /[A-FX]/.test(rhyme)) {
+                    lyrics.classList.add(`rhyme-${rhyme}`);
+                }
+            }
+        }
+
+        function renumberLines(sectionId) {
+            const lyricsContainer = document.getElementById(`lyrics-${sectionId}`);
+            const lines = lyricsContainer.querySelectorAll('.lyrics-line');
+            
+            lines.forEach((line, index) => {
+                const lineNum = index + 1;
+                line.setAttribute('data-line', lineNum);
+                
+                const marker = line.querySelector('.rhyme-marker');
+                const lyrics = line.querySelector('.lyrics-input');
+                
+                if (marker && marker.tagName === 'INPUT') {
+                    marker.id = `marker-${sectionId}-${lineNum}`;
+                    marker.setAttribute('data-line', lineNum);
+                }
+                
+                if (lyrics) {
+                    lyrics.id = `lyrics-${sectionId}-${lineNum}`;
+                    lyrics.setAttribute('data-line', lineNum);
+                }
+            });
+        }
+
+        function setupLineEventListeners(sectionId, lineNum) {
+            const lyrics = document.getElementById(`lyrics-${sectionId}-${lineNum}`);
+            const lyricsContainer = document.getElementById(`lyrics-${sectionId}`);
+            const lines = lyricsContainer.querySelectorAll('.lyrics-line');
+            const line = lines[lineNum - 1];
+            const marker = line ? line.querySelector('.rhyme-marker') : null;
+            
+            // For editable rhyme markers
+            if (marker && marker.tagName === 'INPUT') {
+                marker.addEventListener('input', function() {
+                    const rhyme = this.value.toUpperCase();
+                    this.value = rhyme;
+                    
+                    // Remove all rhyme classes
+                    this.className = 'rhyme-marker';
+                    const sameLine = this.parentElement.querySelector('.lyrics-input');
+                    if (sameLine) {
+                        sameLine.className = 'lyrics-input';
+                    }
+                    
+                    // Add appropriate rhyme class
+                    if (rhyme && /[A-FX]/.test(rhyme)) {
+                        this.classList.add(`rhyme-${rhyme}`);
+                        if (sameLine) {
+                            sameLine.classList.add(`rhyme-${rhyme}`);
+                        }
+                    }
+                });
+                
+                // Prevent tab on rhyme markers - jump to lyrics
+                marker.addEventListener('keydown', function(e) {
+                    if (e.key === 'Tab') {
+                        e.preventDefault();
+                        const sameLine = this.parentElement.querySelector('.lyrics-input');
+                        if (sameLine) sameLine.focus();
+                    }
+                });
+            }
+            
+            if (lyrics) {
+                // Add new line on Enter
+                lyrics.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        
+                        // Get the current line element
+                        const currentLineNum = parseInt(this.dataset.line);
+                        const lyricsContainer = document.getElementById(`lyrics-${sectionId}`);
+                        const allLines = lyricsContainer.querySelectorAll('.lyrics-line');
+                        const currentLineElement = allLines[currentLineNum - 1];
+                        
+                        if (!currentLineElement) return;
+                        
+                        if (sectionModes[sectionId]) {
+                            // In rhyme scheme mode - use addManualRhymeLine
+                            addManualRhymeLine(sectionId, '', currentLineElement);
+                        } else {
+                            // In default mode - add default line
+                            const newLine = document.createElement('div');
+                            newLine.className = 'lyrics-line';
+                            
+                            newLine.innerHTML = `
+                                <input type="text" class="rhyme-marker" 
+                                       maxlength="1" data-section="${sectionId}">
+                                <input type="text" class="lyrics-input" 
+                                       placeholder="L Y R I C S"
+                                       data-section="${sectionId}">
+                            `;
+                            
+                            // Insert the new line directly after the current line
+                            currentLineElement.parentNode.insertBefore(newLine, currentLineElement.nextSibling);
+                            
+                            // Renumber all lines
+                            renumberLines(sectionId);
+                            
+                            // Setup listeners for all lines
+                            setupSectionEventListeners(sectionId);
+                            
+                            // Focus on the new line's lyrics input
+                            const newLyricsInput = newLine.querySelector('.lyrics-input');
+                            if (newLyricsInput) {
+                                newLyricsInput.focus();
+                            }
+                        }
+                    }
+                    
+                    // Custom Tab handling to skip rhyme markers
+                    if (e.key === 'Tab' && !e.shiftKey) {
+                        e.preventDefault();
+                        
+                        // Get all lyrics inputs in this section
+                        const lyricsContainer = document.getElementById(`lyrics-${sectionId}`);
+                        const allLyricsInputs = Array.from(lyricsContainer.querySelectorAll('.lyrics-input'));
+                        const currentIndex = allLyricsInputs.indexOf(this);
+                        
+                        if (currentIndex >= 0 && currentIndex < allLyricsInputs.length - 1) {
+                            // Focus next lyrics input in this section
+                            allLyricsInputs[currentIndex + 1].focus();
+                        } else {
+                            // Try next section's first lyrics input
+                            const nextSection = sectionId + 1;
+                            const nextSectionContainer = document.getElementById(`lyrics-${nextSection}`);
+                            if (nextSectionContainer) {
+                                const nextSectionFirstLyrics = nextSectionContainer.querySelector('.lyrics-input');
+                                if (nextSectionFirstLyrics) {
+                                    nextSectionFirstLyrics.focus();
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        function setupSectionEventListeners(sectionId) {
+            const lyricsContainer = document.getElementById(`lyrics-${sectionId}`);
+            const lines = lyricsContainer.querySelectorAll('.lyrics-line');
+            
+            lines.forEach((line, index) => {
+                const lineNum = index + 1;
+                setupLineEventListeners(sectionId, lineNum);
+            });
+        }
+
+        function formatSongAsText() {
+            let output = '';
+            
+            // Add title
+            const title = document.getElementById('songTitle').value.trim();
+            if (title) {
+                output += `[Title: ${title}]\n\n`;
+            }
+            
+            // Process each section
+            for (let i = 1; i <= sectionCount; i++) {
+                const structureSelect = document.getElementById(`structure-${i}`);
+                const structureNum = document.getElementById(`structure-num-${i}`);
+                const lyricsContainer = document.getElementById(`lyrics-${i}`);
+                
+                if (!structureSelect || !lyricsContainer) continue;
+                
+                const structure = structureSelect.value;
+                const num = structureNum.value;
+                
+                // Add section header
+                if (structure) {
+                    output += `[${structure}`;
+                    if (num) {
+                        output += ` ${num}`;
+                    }
+                    output += ']\n';
+                }
+                
+                // Add lyrics
+                const lines = lyricsContainer.querySelectorAll('.lyrics-line');
+                lines.forEach(line => {
+                    const lyricsInput = line.querySelector('.lyrics-input');
+                    if (lyricsInput && lyricsInput.value.trim()) {
+                        output += lyricsInput.value + '\n';
+                    }
+                });
+                
+                // Add blank line between sections
+                if (lines.length > 0) {
+                    output += '\n';
+                }
+            }
+            
+            return output;
+        }
+
+        function exportToPDF() {
+            const formattedText = formatSongAsText();
+            const printContent = document.getElementById('printContent');
+            printContent.textContent = formattedText;
+            window.print();
+        }
+
+        function copyToClipboard() {
+            const formattedText = formatSongAsText();
+            
+            // Create a temporary textarea to copy from
+            const textarea = document.createElement('textarea');
+            textarea.value = formattedText;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            
+            // Select and copy
+            textarea.select();
+            document.execCommand('copy');
+            
+            // Remove the temporary element
+            document.body.removeChild(textarea);
+            
+            // Show toast notification
+            const toast = document.getElementById('toast');
+            toast.style.display = 'block';
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 2000);
+        }
+
+        // Add first section on load
+        window.onload = function() {
+            document.getElementById('songTitle').focus();
+        };
+    </script>
+</body>
+</html>
