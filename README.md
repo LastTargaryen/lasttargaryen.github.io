@@ -5,19 +5,19 @@ Lemme start with the bad stuff:
 *** If you _unselect_ "Rhyme Scheme Setup?" (by clicking it again), any lyrics or scheme letters will be erased from that section--it resets the section entirely, back to the four blank lines.
 
 
-*** Supports (optional) rhyme schemes for these letters: A B C D E F X
+*** Supports (optional) rhyme schemes for these letters: A B C D E F X ***
 
-    -- Color codes appear so as to visually. X will always be black, though, cuz...
+    -- Color codes for each of these letters. X will always be black, though, because:
     
-    -- Using X is for lines that do not rhyme with any other lines. An X X pair wouldn't rhyme; it'd indicate two non-rhyming lines back-to-back. 
+        -- Using X is for lines that do not rhyme with any other lines. An X X pair wouldn't rhyme; it'd indicate two non-rhyming lines back-to-back. 
     
         -- No matter how many times or in what order, X indicates an intended departure from rhyme scheme
     
-    -- typing any other letter aside from A, B, C, D, E, F, or X will inhibit the next scheme letter input
+    -- typing any other letter aside from A, B, C, D, E, F, or X will disable the next scheme letter input
 
 -- Aside from that, yeah you can set a rhyme scheme for yourself so it's easier to track what lines must rhyme
 
--- This makes it a bit easier to broaden / artistically complicate your rhyme schemes.
+-- These embedded points of focus are meant to keep a user grounded in the technical aspect of songbuilding, and thus makes it a bit easier to broaden / artistically             complicate your rhyme schemes in service of expressing oneself better than one could before.
 
 -- Alternatively / additionally, you can change / remove / swap out rhyme scheme letters in single-value input box to the left of every line.
 
